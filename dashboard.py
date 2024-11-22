@@ -21,7 +21,6 @@ def on_hover(event):
 
 # Function to update the plot based on the image
 def update_plot(loading=False, only_image: bool = False, image_name: str = None):
-
     if not only_image:
         overlay = img.copy()
         alpha: float = alpha_var.get()
@@ -187,9 +186,6 @@ style.configure(
 scrollbar_left = ttk.Scrollbar(root, orient="vertical", command=sidebar_canvas_left.yview, style="Dark.Vertical.TScrollbar")
 scrollbar_left.pack(side=tk.LEFT, fill="y")
 
-scrollbar_right = ttk.Scrollbar(root, orient="vertical", command=sidebar_canvas_right.yview, style="Dark.Vertical.TScrollbar")
-scrollbar_right.pack(side=tk.RIGHT, fill="y")
-
 # Create a frame inside the Canvas to hold sidebar content
 sidebar_left = tk.Frame(sidebar_canvas_left, width=200, bg=darker_bg)
 sidebar_left.bind(
@@ -197,19 +193,9 @@ sidebar_left.bind(
     lambda e: sidebar_canvas_left.configure(scrollregion=sidebar_canvas_left.bbox("all"))
 )
 
-# Create a frame inside the right Canvas to hold images
-sidebar_right = tk.Frame(sidebar_canvas_right, width=200, bg=darker_bg)
-sidebar_right.bind(
-    "<Configure>",
-    lambda e: sidebar_canvas_right.configure(scrollregion=sidebar_canvas_right.bbox("all"))
-)
-
 # Place the frame inside the Canvas
 sidebar_canvas_left.create_window((0, 0), window=sidebar_left, anchor="nw")
 sidebar_canvas_left.configure(yscrollcommand=scrollbar_left.set)
-
-sidebar_canvas_right.create_window((0, 0), window=sidebar_right, anchor="nw")
-sidebar_canvas_right.configure(yscrollcommand=scrollbar_right.set)
 
 # Function to enable scrolling with the mouse wheel
 def on_mouse_wheel(event):
@@ -227,9 +213,6 @@ sidebar_canvas_right.bind_all("<MouseWheel>", on_mouse_wheel)
 # Bind mouse wheel event for Linux (uses Button-4 and Button-5)
 sidebar_canvas_left.bind_all("<Button-4>", on_mouse_wheel)
 sidebar_canvas_left.bind_all("<Button-5>", on_mouse_wheel)
-
-sidebar_canvas_right.bind_all("<Button-4>", on_mouse_wheel)
-sidebar_canvas_right.bind_all("<Button-5>", on_mouse_wheel)
 
 # Variables for masks
 coast_var = tk.BooleanVar(value=True)
@@ -275,19 +258,19 @@ style.configure(
 )
 
 # Title Label RIGHT
-ttk.Label(sidebar_right, text="Select Image", style="Dark.TLabel").pack(anchor="w", padx=10, pady=(10, 5))
+ttk.Label(sidebar_canvas_right, text="Select Image", style="Dark.TLabel").pack(anchor="w", padx=5, pady=(10, 5))
 
 image_files = [f for f in os.listdir("./mocking_examples") if f.endswith(".png")]
 
 # Dropdown menu for selecting an image RIGHT
 image_listing = tk.Listbox(
-    sidebar_right, 
+    sidebar_canvas_right, 
     height=10, 
     bg=dark_bg, 
     fg=text_color, 
     relief="flat",
     font=("Arial", 10), 
-    bd=0
+    highlightthickness=0
 )
 image_listing.pack(padx=10, pady=(5, 10))
 
@@ -364,7 +347,8 @@ tk.Button(
     text="Coast Color",
     name="coast_color",
     bg=mask_colors["coast_color"],
-    foreground=text_color,
+    relief="flat",
+    foreground=dark_bg,
     command=lambda: choose_color("coast_color")
 ).pack(anchor="w", padx=10, pady=5)
 
@@ -373,7 +357,8 @@ tk.Button(
     text="Inland Color",
     name="inland_color",
     bg=mask_colors["inland_color"],
-    foreground=text_color,
+    relief="flat",
+    foreground=dark_bg,
     command=lambda: choose_color("inland_color")
 ).pack(anchor="w", padx=10, pady=5)
 
@@ -382,7 +367,8 @@ tk.Button(
     text="Forest Edge Color",
     name="forest_edge_color",
     bg=mask_colors["forest_edge_color"],
-    foreground=text_color,
+    relief="flat",
+    foreground=dark_bg,
     command=lambda: choose_color("forest_edge_color")
 ).pack(anchor="w", padx=10, pady=5)
 
@@ -391,7 +377,8 @@ tk.Button(
     text="Tree Color",
     name="tree_color",
     bg=mask_colors["tree_color"],
-    foreground=text_color,
+    relief="flat",
+    foreground=dark_bg,
     command=lambda: choose_color("tree_color")
 ).pack(anchor="w", padx=10, pady=5)
 
@@ -400,7 +387,8 @@ tk.Button(
     text="Water Color",
     name="water_color",
     bg=mask_colors["water_color"],
-    foreground=text_color,
+    relief="flat",
+    foreground=dark_bg,
     command=lambda: choose_color("water_color")
 ).pack(anchor="w", padx=10, pady=5)
 
